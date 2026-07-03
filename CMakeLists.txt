@@ -25,9 +25,6 @@ endif()
 
 set(PROJECT_SOURCES
 main.cpp
-mainwindow.cpp
-mainwindow.h
-mainwindow.ui
 resurs.qrc
 currencyconvertor.h
 currencyconvertor.cpp
