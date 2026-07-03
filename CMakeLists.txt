@@ -29,6 +29,8 @@ mainwindow.cpp
 mainwindow.h
 mainwindow.ui
 resurs.qrc
+currencyconvertor.h
+currencyconvertor.cpp
 )
 
 

@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+1f543656586ce2ea510bc3b2a430cd87 CMakeFiles/my-convertor-qt_autogen
+600a5681372900438ecd1ebcb5c6c430 qrc_resources.cpp
