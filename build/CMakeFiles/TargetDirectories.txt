@@ -1,4 +1,0 @@
-/home/user/c++/my-convertor-qt/build/CMakeFiles/my-convertor-qt.dir
-/home/user/c++/my-convertor-qt/build/CMakeFiles/edit_cache.dir
-/home/user/c++/my-convertor-qt/build/CMakeFiles/rebuild_cache.dir
-/home/user/c++/my-convertor-qt/build/CMakeFiles/my-convertor-qt_autogen.dir
