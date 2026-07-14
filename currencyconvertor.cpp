@@ -1,4 +1,7 @@
 #include "currencyconvertor.h"
+#include <ratesworker.h>
+
+#include <QThread>
 #include <QApplication>
 #include <QLabel>
 #include <QWidget>
@@ -25,11 +28,22 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QCoreApplication>
+#include <QTimer>
 
 CurrencyConvertor::CurrencyConvertor(QWidget *parents) : QWidget(parents){
-    manager = new QNetworkAccessManager(this);
+
+    worker = new RatesWorker();
+    thread = new QThread(this);
+
+    worker->moveToThread(thread);
+
+    connect(worker, &RatesWorker::rateReady, this, &CurrencyConvertor::onRateReady);
+    connect(worker, &RatesWorker::resultRequest, this, &CurrencyConvertor::onResultRequest);
+
+    thread->start();
+
     setupUI();
-    fetchRates();
+    QTimer::singleShot(0, worker, &RatesWorker::doWork);
 }
 
 void CurrencyConvertor::setupUI(){
@@ -167,7 +181,7 @@ void CurrencyConvertor::setupUI(){
 
     connect(convertBtn, &QPushButton::clicked, this, &CurrencyConvertor::convert);
 
-    connect(refreshBtn, &QPushButton::clicked, this, &CurrencyConvertor::fetchRates);
+   connect(refreshBtn, &QPushButton::clicked, worker, &RatesWorker::doWork);
 
 
 
@@ -206,37 +220,7 @@ void CurrencyConvertor::setupUI(){
 
 void CurrencyConvertor::fetchRates() {
 
-    QNetworkRequest request(QUrl("https://api.nbrb.by/exrates/rates?periodicity=0&limit=500"));
-    QNetworkReply *reply = manager->get(request);
 
-    connect(reply, &QNetworkReply::finished, [=]() {
-        if (reply->error() == QNetworkReply::NoError) {
-            QByteArray data = reply->readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(data);
-
-            if (doc.isArray()) {
-                rates.clear();
-                rates["BYN"] = 1.0;
-
-                for (const QJsonValue &v : doc.array()) {
-                    QJsonObject obj = v.toObject();
-                    QString cur = obj["Cur_Abbreviation"].toString();
-                    double rate = obj["Cur_OfficialRate"].toDouble();
-                    int scale = obj["Cur_Scale"].toInt();
-
-                    if (rate > 0 && scale > 0) {
-                        rates[cur] = rate / scale;
-                    }
-                }
-                resultLabel->setText("Курсы обновлены ");
-            } else {
-                resultLabel->setText("Ошибка неверный ответ");
-            }
-        } else {
-            resultLabel->setText("Ошибка загрузки проверьте интернет.");
-        }
-        reply->deleteLater();
-    });
 }
 
 void CurrencyConvertor::convert(){
@@ -256,4 +240,20 @@ void CurrencyConvertor::convert(){
             resultLabel->setText(QString::number(result, 'f', 4) + " " + toCombo->currentText());
         }
 
+}
+
+void CurrencyConvertor::onRateReady(QMap<QString, double>rates){
+    this->rates = rates;
+    resultLabel->setText("Курсы загружены");
+}
+
+void CurrencyConvertor::onResultRequest(QString result){
+    resultLabel->setText(result);
+}
+
+CurrencyConvertor::~CurrencyConvertor() {
+    thread->quit();
+    thread->wait();
+    delete worker;
+    delete thread;
 }

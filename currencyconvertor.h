@@ -8,11 +8,18 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
+#include "ratesworker.h"
 
 class CurrencyConvertor : public QWidget{
     Q_OBJECT
 public:
     explicit CurrencyConvertor(QWidget *parent = nullptr);
+    ~CurrencyConvertor();
+
+private slots:
+    void onRateReady(QMap<QString, double>rates);
+    void onResultRequest(QString result);
+
 private:
     void setupUI();
     void fetchRates();
@@ -26,9 +33,10 @@ private:
     QPushButton *refreshBtn;
     QLabel *resultLabel;
     QPushButton *swapBtn;
-
-    QNetworkAccessManager *manager;
     QMap<QString, double>rates;
+
+    RatesWorker *worker;
+    QThread *thread;
 };
 
 
