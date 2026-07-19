@@ -17,7 +17,8 @@ Simple currency converter using rates from NBRB.
 ## Build and run
 
 ```bash
+cd currency-converter-qt
 mkdir build && cd build
 cmake ..
 make
-./my-convertor-qt
+./currency-converter-qt
