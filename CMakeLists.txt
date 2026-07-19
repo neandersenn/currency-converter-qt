@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(my-convertor-qt VERSION 0.1 LANGUAGES CXX)
+project(currency-converter-qt VERSION 0.1 LANGUAGES CXX)
 
 
 
@@ -35,12 +35,12 @@ ratesworker.cpp
 
 
 if(QT_VERSION_MAJOR EQUAL 6)
-qt_add_executable(my-convertor-qt
+qt_add_executable(currency-converter-qt
 MANUAL_FINALIZATION
 ${PROJECT_SOURCES}
 )
 else()
-add_executable(my-convertor-qt
+add_executable(currency-converter-qt
 ${PROJECT_SOURCES}
 )
 endif()
@@ -48,7 +48,7 @@ endif()
 
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    target_link_libraries(my-convertor-qt PRIVATE
+    target_link_libraries(currency-converter-qt PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
@@ -58,7 +58,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
         Qt6::Charts
     )
 else()
-target_link_libraries(my-convertor-qt PRIVATE
+target_link_libraries(currency-converter-qt PRIVATE
 Qt5::Core
 Qt5::Gui
 Qt5::Widgets
@@ -71,7 +71,7 @@ endif()
 
 
 
-set_target_properties(my-convertor-qt PROPERTIES
+set_target_properties(currency-converter-qt PROPERTIES
 MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
 MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
 MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -81,6 +81,6 @@ WIN32_EXECUTABLE TRUE
 
 
 if(QT_VERSION_MAJOR EQUAL 6)
-qt_finalize_executable(my-convertor-qt)
+qt_finalize_executable(currency-converter-qt)
 endif()
 
