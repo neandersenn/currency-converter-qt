@@ -1,29 +1,20 @@
-### Currency Converter (Qt/C++)
+### Currency Converter
 
-Простой конвертер валют с актуальными курсами от Национального банка Беларуси.
+Simple currency converter using rates from NBRB.
 
 ![Скриншот приложения](screenshots/app.png)
 
-## Возможности
+## Features
 
-- Конвертация 7 валют: USD, EUR, RUB, BYN, GBP, CNY, KZT
-- Актуальные курсы через API НБРБ
-- Обновление курсов по кнопке **Refresh**
+- Conversion of 7 currencies: USD, EUR, RUB, BYN, GBP, CNY, KZT
+- Update rates with **Refresh** button
+- Rates are updated every 5 minutes
 
-## Стек технологий
-
-- **C++ (Qt 6/5)**
-- **Qt Network** — HTTP-запросы к API
-- **Qt Svg** — иконка Swap
-- **CMake** — система сборки
-
-### Как собрать и запустить
-
-## Требования
-- Qt 5.15 или выше
+## Requirements
+- Qt 5.15 or higher
 - CMake 3.5+
 
-## Сборка и запуск
+## Build and run
 
 ```bash
 mkdir build && cd build
